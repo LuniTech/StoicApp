@@ -1,0 +1,361 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cookie&family=Kaushan+Script&family=Luckiest+Guy&family=Metal+Mania&family=Sacramento&family=Sriracha&display=swap" rel="stylesheet">
+<style>
+footer{
+text-align:center;
+}
+.grid-container
+{
+padding: 1%;
+margin:auto;
+height: 85vh;
+width: 95vh;
+display:grid;
+grid-gap: 1%;
+grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+font-family: verdana;
+background-color: #AA96DA;
+border-radius: 1%;
+}
+textarea{
+background-color: #C5FAD5;
+}
+.internal
+{
+//overflow-y: hidden;
+//border: 2px black solid;
+border-radius: 10px;
+background-color: #FFFFD2;
+}
+.question-Box
+{
+padding:2%;
+grid-column: 1/7;
+grid-row:1/4;
+}
+.answer-box
+{
+padding:2%;
+grid-column: 1/7;
+grid-row:4/7;
+}
+.comment-box
+{
+padding:2%;
+grid-column: 1/7;
+grid-row:7/11;
+}
+
+.pic
+{
+padding:2%;
+grid-column:7/11;
+grid-row:1/9;
+}
+.button-tab
+{
+padding:2%;
+grid-column:7/11;
+grid-row:9/11;
+}
+
+.question-area
+{
+width: 96%;
+height:75%;
+resize:none;
+}
+.comment-area
+{
+width: 96%;
+height:50%;
+resize:none;
+margin:0.5%;
+}
+#picFrame
+{
+//border: solid black 2px;
+height:50%;
+margin: auto;
+border-radius:4px;
+}
+header{
+background-color: beige;
+margin-bottom:2px;
+}
+h1{
+text-align:center;
+font-family:"luckiest guy";
+}
+.internalSpan
+{
+font-family:verdana;
+display:block;
+text-align:center;
+
+}
+.btn{
+font-size:0.8em;
+}
+button{
+font-size:0.5em;
+margin: 2px;
+}
+.quoteBlock
+{
+text-align: center;
+font-family: Allura;
+font-weight:bold;
+font-size: 1.5em;
+}
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+  font-family: inherit;
+}
+a::hover
+{
+color: inherit;
+text-decoration: inherit;
+}
+</style>
+
+</head>
+<body>
+<header><div class="landing-pic"></div><h1>INNOCENT LUNIKA'S STOIC TRAINER</h1><div class="quoteBlock"></div></header>
+
+<div class="grid-container">
+<div class="question-Box internal" ><span class="internalSpan">Question</span>
+<textarea class="question-area" id="qArea"></textarea>
+</div>
+<div class="answer-box internal">Answer options <br>
+<span class="options"></span><!--<input type="radio" class="radioOption" id="1" name="option1" value="CSS"><br>-->
+<span class="options"></span><!--<input type="radio" class="radioOption" id="2" name="option1" value="CSS"><br>-->
+<span class="options"></span><!--<input type="radio" class="radioOption" id="3" name="option1" value="CSS"><br>-->
+
+<form></form></div>
+
+<div class="comment-box internal">Notes and Comments <button onclick="" class="btn btn-warning">Save Note</button> <br><textarea class="comment-area" id="comments"></textarea>
+</div>
+<div class="pic internal"><div id="score">Score:0/0</div><br><img id="picFrame" src="defaultImage.png"></div>
+<div class="button-tab internal"> <button class= "btn btn-primary" onclick="generate()">Generate</button> <button class= "btn btn-secondary" id="submitButton" onclick="checkAnswer()" disabled>Submit</button><button class= "btn btn-info" >Resources</button>
+
+<button class= "btn btn-info">Get transcript</button></div>
+
+</div>
+<footer><button class= "btn btn-info" ><a href="about.html">Contact</a></a></button> <button class= "btn btn-info">Contribute</button> <button class= "btn btn-info"><a  href="https://www.paypal.com/paypalme/ZiphoLunika">Support</a></button></footer>
+</body>
+<script>
+/* Basic data structure of document
+{Question: "string",
+category:"string",   //person, social, initimate, family, occupational, news
+options:["str1","str2"],
+correctIndex:0,
+picUrl:"231",
+vidUrl:"sadasd",
+}
+
+*/
+
+
+//some quotes into this array:
+var quotesArr = [["Do not say, 'I have lost it' but say that it has been returned.","Epictetus"],
+
+
+["The best answer to anger is silence.","Marcus Aurelius"],
+["Be tolerant with others and strict with yourself.","Marcus Aurelius"],
+["Waste no more time arguing what a good man should be. Be One. ","Marcus Aurelius"],
+["We are more often frightened than hurt; and we suffer more in imagination than in reality.","Seneca"],
+["No person has the power to have everything they want, but it is in their power not to want what they don’t have, and to cheerfully put to good use what they do have.","Seneca"],
+["How long are you going to wait before you demand the best for yourself?","Seneca"],
+["Don’t seek for everything to happen as you wish it would, but rather wish that everything happens as it actually will—then your life will flow well.","Epictetus"],
+["Don’t explain your philosophy. Embody it.","Epictetus"],
+["If anyone tells you that a certain person speaks ill of you, do not make excuses about what is said of you but answer, ‘He was ignorant of my other faults, else he would have not mentioned these alone.","Epictetus"],
+["When we are no longer able to change a situation, we are challenged to change ourselves.","Viktor Frankl"],
+["It is the power of the mind to be unconquerable.","Seneca"],
+["The things you think about determine the quality of your mind.","Marcus Aurelius"],
+["Our life is what our thoughts make it.","Marcus Aurelius"],
+["It's not what happens to you, but how you react to it that matters.","Epictetus"],
+["People are not disturbed by things, but by the views they take of them.","Epictetus"],
+["If you want to improve, be content to be thought foolish and stupid.","Epictetus"],
+["To win true freeedom you must be a slave to philosophy","Seneca"],
+["No man is crushed by misfortune unless he has first been deceived by prosperity.","Seneca"],
+["Man conquers the world by conquering himself.","Zeno"],
+["A bad feeling is a commotion of the mind repugnant to reason, and against nature.","Zeno"],
+["Difficulties strengthen the mind, as labor does the body.","Seneca"],
+["When someone is properly grounded in life, they shouldn't have to look outside themselves for approval.","Epictetus"],
+["Just keep in mind: the more we value things outside our control, the less control we have.","Epictetus"]
+
+];
+
+var randIndex = parseInt(Math.random()*20);
+var qBlock = document.getElementsByClassName("quoteBlock");
+
+qBlock[0].innerHTML = quotesArr[randIndex][0]+" <br> "+"- "+quotesArr[randIndex][1];
+
+
+//initializing global variables:
+
+let data = [ {Question: "Your wife cheats on you",
+category:"Intimate",
+options:["Get angry","Hate her"," Accept it"],
+correctIndex:2,
+picUrl:"pics/wife.jpg",
+vidUrl:"lady.jpg",
+},
+{
+    Question: "You lost your job unexpectedly",
+    category: "Occupational",
+    options: ["Blame others", "Feel helpless", "Seek new opportunities"],
+    correctIndex: 2,
+    picUrl: "pics/job_loss.jpg",
+    vidUrl: "job_loss_video.mp4",
+  },
+  {
+    Question: "Your friend betrayed your trust",
+    category: "Social",
+    options: ["End the friendship", "Hold a grudge", "Have an honest conversation"],
+    correctIndex: 2,
+    picUrl: "pics/friendship.jpg",
+    vidUrl: "friendship_video.mp4",
+  },
+  
+  {
+    Question: "You faced a major health setback",
+    category: "Personal",
+    options: ["Pity yourself", "Seek medical help", "Accept the situation"],
+    correctIndex: 1,
+    picUrl: "pics/health_setback.jpg",
+    vidUrl: "health_video.mp4",
+  },
+  {
+    Question: "You received negative feedback at work",
+    category: "Occupational",
+    options: ["Blame your boss", "Reflect on your performance", "Quit your job"],
+    correctIndex: 1,
+    picUrl: "pics/negative_feedback.jpg",
+    vidUrl: "feedback_video.mp4",
+  },
+  {
+    Question: "You're stuck in heavy traffic on the way to an important meeting",
+    category: "Occupational",
+    options: ["Get frustrated and honk", "Practice patience and plan an alternative route", "Cancel the meeting"],
+    correctIndex: 1,
+    picUrl: "pics/traffic.jpg",
+    vidUrl: "traffic_video.mp4",
+  },
+  {
+    Question: "Your child is struggling with their grades at school",
+    category: "Family",
+    options: ["Blame the teacher", "Help your child with their studies", "Ignore the issue"],
+    correctIndex: 1,
+    picUrl: "pics/child_school.jpg",
+    vidUrl: "child_school_video.mp4",
+  }
+  // Add more scenarios and responses here
+]
+let submitButton = document.getElementById("submitButton");
+let tickedAnswer=0;
+let uniIndex=0;
+let uniScore=0;
+let totalScore=0;
+let commentsArr=[];
+function generate()
+{
+let randomSelectIndex = 0;
+submitButton.disabled =false;
+try{
+ randomSelectIndex = Math.floor(Math.random() * data.length);
+}
+catch(e)
+{
+alert("Wrong index")
+}
+render(randomSelectIndex);
+setIndex(randomSelectIndex);
+
+}
+
+function setIndex(ind)
+{
+uniIndex =ind;
+}
+
+function checkAnswer()
+{
+submitButton.disabled =true;
+let optionsArr = document.getElementsByClassName("options");
+let radioOption =  document.getElementsByClassName("radioOption");
+let correctAnswer = data[uniIndex]["correctIndex"];
+ let tickedAnswer =-1;
+for(i=0;i<radioOption.length;i++)
+{
+if(radioOption[i].checked)
+{
+tickedAnswer=i;
+break;
+}
+}
+let getScore = document.getElementById("score");
+let commentElement = document.getElementById("comments");
+if(tickedAnswer==-1)
+	alert("No option selected!");
+else if(tickedAnswer === correctAnswer)
+{
+totalScore++;
+uniScore++;
+getScore.innerHTML = "Score: "+uniScore+"/"+totalScore;
+commentElement.value!=""?commentsArr.push(commentElement.value):commentElement.value="";
+for(let j=0;j<optionsArr.length;j++)
+{
+if(j==tickedAnswer)
+optionsArr[tickedAnswer].style.backgroundColor ="lightGreen";
+else
+optionsArr[j].style.backgroundColor ="lightcoral";
+}
+}
+else{
+totalScore++;
+getScore.innerHTML = "Score: "+uniScore+"/"+totalScore;
+for(let j=0;j<optionsArr.length;j++)
+{
+if(j==correctAnswer)
+optionsArr[j].style.backgroundColor ="lightGreen";
+else
+optionsArr[j].style.backgroundColor ="lightcoral";
+}
+}
+
+}
+
+function render(index)
+{
+let qArea = document.getElementById("qArea");
+qArea.value = data[index]["Question"]; //question Area rendering
+let optionsArr = document.getElementsByClassName("options"); //option radio buttons
+
+let picFrame = document.getElementById("picFrame");
+let i=0;
+//render options
+for(i=0;i<data[index]["options"].length;i++)
+{
+optionsArr[i].innerHTML = data[index]["options"][i] + '<input type="radio" class="radioOption"  name="option1" value="CSS"><br>';
+optionsArr[i].style.backgroundColor ="white";
+}
+//render picture
+try{
+picFrame.src =data[index]["picUrl"];
+}
+catch(e)
+{
+picFrame.src = "defaultPic.png";
+}
+}
+
+</script>
+</html>
