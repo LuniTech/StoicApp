@@ -1,0 +1,2 @@
+# StoicApp
+Stoic app trainer
